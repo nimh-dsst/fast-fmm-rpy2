@@ -10,7 +10,7 @@ authors = [
     {name = "Josh Lawrimore", email = "josh.lawrimore@nih.gov"}
 ]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = {file = "LICENSE"}  # Add a LICENSE file if you have one
 
 dependencies = [
@@ -23,18 +23,38 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "black",
-    "flake8",
     "mypy",
-    "isort",
-    "pandas-stubs"
+    "pandas-stubs",
+    "ruff",
 ]
 
 [tool.setuptools]
 packages = {find = {}}
 
-[tool.black]
-line-length = 88
+[tool.ruff]
+exclude = [
+    ".venv",
+    "*.ipynb",
+]
 
-[tool.isort]
-profile = "black"
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    "F",    # pyflakes F codes
+    "I",    # isort codes
+    "W",    # pycodestyle warning codes
+    "E4",   # subset of the pycodestyle Error codes
+    "E7",
+    "E9",
+    "E501",
+]
+
+[tool.ruff.format]
+# Configure Black style
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
