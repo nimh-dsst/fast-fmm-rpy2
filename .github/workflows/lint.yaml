@@ -12,10 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          # super-linter needs the full git history to get the
-          # list of files that changed across commits
-          fetch-depth: 0
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
@@ -37,19 +33,3 @@ jobs:
         run: |
           uv run ruff check . --diff
           uv run ruff check . --statistics
-
-      - name: Run GitHub super-linter
-        uses: github/super-linter/slim@v7
-        env:
-          DEFAULT_BRANCH: main
-          # To report GitHub Actions status checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ALL_CODEBASE: true
-          VALIDATE_YAML: true
-          VALIDATE_JSON: true
-          VALIDATE_HTML: true
-          VALIDATE_R: true
-          VALIDATE_MD: true
-          VALIDATE_BASH: true
-          VALIDATE_DOCKER: true
-          VALIDATE_ENV: true
