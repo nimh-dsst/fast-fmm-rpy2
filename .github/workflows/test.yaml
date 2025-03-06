@@ -30,9 +30,9 @@ jobs:
         with:
           version: "0.6.x"
           python-version: ${{ matrix.python-version }}
-        env:
-          LIBRARY_PATH: "$LIBRARY_PATH:/opt/homebrew/lib"
-          INCLUDE_PATH: "$INCLUDE_PATH:/opt/homebrew/include"
 
       - name: Test with python ${{ matrix.python-version }}
         run: uv run --extra dev --frozen pytest
+        env:
+          LIBRARY_PATH: "$LIBRARY_PATH:/opt/homebrew/lib"
+          INCLUDE_PATH: "$INCLUDE_PATH:/opt/homebrew/include"
