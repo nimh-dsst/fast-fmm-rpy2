@@ -5,10 +5,12 @@ on: [push, pull_request]
 jobs:
   test:
     name: "Unit Tests"
-    runs-on: macos-latest
     strategy:
       matrix:
         python-version: ["3.10"]
+        os: [macos-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,6 +30,9 @@ jobs:
         with:
           version: "0.6.x"
           python-version: ${{ matrix.python-version }}
+        env:
+          LIBRARY_PATH: "$LIBRARY_PATH:/opt/homebrew/lib"
+          INCLUDE_PATH: "$INCLUDE_PATH:/opt/homebrew/include"
 
       - name: Test with python ${{ matrix.python-version }}
         run: uv run --extra dev --frozen pytest
