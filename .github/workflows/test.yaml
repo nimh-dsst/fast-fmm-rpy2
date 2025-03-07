@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10"]
-        os: [macos-latest, macos-14]
+        os: [macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -31,8 +31,26 @@ jobs:
           version: "0.6.x"
           python-version: ${{ matrix.python-version }}
 
-      - name: Test with python ${{ matrix.python-version }}
-        run: uv run --extra dev --frozen pytest
+      - name: Verify system setup
+        run: |
+          brew --version
+          xcode-select -p
+          which R
+
+      - name: Make homebrew accessible
+        run: |
+          # homebrew path for silicon mac /opt/homebrew
+          echo "LIBRARY_PATH=${LIBRARY_PATH}:/opt/homebrew/lib" >> "$GITHUB_ENV"
+          echo "INCLUDE_PATH=${INCLUDE_PATH}:/opt/homebrew/include" >> "$GITHUB_ENV"
+
+      - name: Install python dependencies
+        run: |
+          echo "$LIBRARY_PATH"
+          echo "$CFLAGS"
+          uv sync --extra dev --frozen --verbose
         env:
-          LIBRARY_PATH: "$LIBRARY_PATH:/opt/homebrew/lib"
-          INCLUDE_PATH: "$INCLUDE_PATH:/opt/homebrew/include"
+          DYLD_FALLBACK_LIBRARY_PATH: "/opt/homebrew/lib"
+
+      - name: Test with python ${{ matrix.python-version }}
+        run: |
+          uv run pytest
