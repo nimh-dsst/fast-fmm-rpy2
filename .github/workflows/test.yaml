@@ -25,7 +25,7 @@ jobs:
 
       - name: Install system requirements
         run: |
-          brew install xz pcre2 bzip2 deflate  # install R sys dependencies
+          brew install xz pcre2 bzip2 libdeflate  # install R sys dependencies
           brew install libgit2 imagemagick@6  # install bioconductor sys dependencies
 
       - name: Install uv and set the python version
