@@ -17,13 +17,16 @@ jobs:
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
-        env:
-          HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: true
 
       - name: Install fastFMM
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: fastFMM
+
+      - name: Install system requirements
+        run: |
+          brew install liblzma pcre2 bzip2  # install R sys dependencies
+          brew install libgit2 imagemagick@6  # install bioconductor sys dependencies
 
       - name: Install uv and set the python version
         uses: astral-sh/setup-uv@v5
@@ -33,20 +36,12 @@ jobs:
 
       - name: Verify system setup
         run: |
-          brew --version
-          xcode-select -p
-          which R
-
-      - name: Make homebrew accessible
-        run: |
-          # homebrew path for silicon mac /opt/homebrew
-          echo "LIBRARY_PATH=${LIBRARY_PATH}:/opt/homebrew/lib" >> "$GITHUB_ENV"
-          echo "INCLUDE_PATH=${INCLUDE_PATH}:/opt/homebrew/include" >> "$GITHUB_ENV"
+          echo "$GITHUB_PATH"
+          which gfortran
 
       - name: Install python dependencies
         run: |
-          echo "$LIBRARY_PATH"
-          echo "$CFLAGS"
+          echo "$DYLD_FALLBACK_LIBRARY_PATH"
           uv sync --extra dev --frozen --verbose
         env:
           DYLD_FALLBACK_LIBRARY_PATH: "/opt/homebrew/lib"
