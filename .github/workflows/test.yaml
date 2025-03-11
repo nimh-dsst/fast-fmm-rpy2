@@ -23,10 +23,10 @@ jobs:
         with:
           packages: fastFMM
 
-      - name: Install system requirements
+      - name: macOS library fix for R 4.4.3
         run: |
-          brew install xz pcre2 bzip2 libdeflate  # install R sys dependencies
-          brew install libgit2 imagemagick@6  # install bioconductor sys dependencies
+          curl -LO https://mac.r-project.org/bin/darwin20/arm64/libdeflate-1.23-darwin.20-arm64.tar.xz
+          tar xzf libdeflate-1.23-darwin.20-arm64.tar.xz -C /
 
       - name: Install uv and set the python version
         uses: astral-sh/setup-uv@v5
@@ -34,15 +34,9 @@ jobs:
           version: "0.6.x"
           python-version: ${{ matrix.python-version }}
 
-      - name: Verify system setup
-        run: |
-          echo "$GITHUB_PATH"
-          which gfortran
-
       - name: Install python dependencies
         run: |
-          echo "$DYLD_FALLBACK_LIBRARY_PATH"
-          uv sync --extra dev --frozen --verbose
+          uv sync --extra dev --frozen
         env:
           DYLD_FALLBACK_LIBRARY_PATH: "/opt/homebrew/lib"
 
