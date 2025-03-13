@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - 'fix-ghas'
-    paths:
-      - '.github/workflows/test_publish.yaml'
+    # paths:
+    #   - '.github/workflows/test_publish.yaml'
 
 jobs:
   pypi:
