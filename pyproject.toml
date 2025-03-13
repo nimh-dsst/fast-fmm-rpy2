@@ -11,7 +11,7 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.10"
-license = {file = "LICENSE"}  # Add a LICENSE file if you have one
+license = "CC0 1.0 Universal"
 
 dependencies = [
     "rpy2",
@@ -28,6 +28,11 @@ dev = [
     "ruff",
     "bump-my-version",
 ]
+
+[project.urls]
+Homepage = "https://github.com/gloewing/photometry_FLMM"
+Issues = "https://github.com/gloewing/photometry_FLMM/issues"
+"Original R CRAN package" = "https://cran.r-project.org/web/packages/fastFMM/index.html"
 
 [tool.setuptools]
 packages = {find = {}}
