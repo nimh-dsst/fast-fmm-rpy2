@@ -7,11 +7,21 @@ name = "fast_fmm_rpy2"
 version = "0.1.0"
 description = "FLMM rpy2 wrapper for analyzing Fiber Photometry data"
 authors = [
-    {name = "Josh Lawrimore", email = "josh.lawrimore@nih.gov"}
+    {name = "Josh Lawrimore", email = "josh.lawrimore@nih.gov"},
+    {name = "Ashley Ptinis", email = "aptinis@gmail.com"},
+    {name = "Gabriel Loewinger", email = "gloewinger@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE" }
+license = { text = "CC0 1.0 Universal" }
+
+keywords = [
+    "Fiber Photometry",
+    "FLMM",
+    "Functional Linear Mixed Models",
+    "Fast Functional Mixed Models",
+    "Fast Univariate Inference"
+]
 
 dependencies = [
     "rpy2",
@@ -32,7 +42,6 @@ dev = [
 [project.urls]
 Homepage = "https://github.com/gloewing/photometry_FLMM"
 Issues = "https://github.com/gloewing/photometry_FLMM/issues"
-"Original R CRAN package" = "https://cran.r-project.org/web/packages/fastFMM/index.html"
 
 [tool.setuptools]
 packages = {find = {}}
