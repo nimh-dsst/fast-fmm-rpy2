@@ -5,6 +5,7 @@ A Python wrapper for the R fastFMM package
 <!-- update repo for badges -->
 <!-- https://img.shields.io/pypi/v/fast_fmm_rpy2 -->
 [![PyPI - Version](https://img.shields.io/pypi/v/fast_fmm_rpy2?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://pypi.org/project/fast_fmm_rpy2)
+[![DOI](https://zenodo.org/badge/952179029.svg)](https://zenodo.org/badge/latestdoi/952179029)
 [![GitHub License](https://img.shields.io/github/license/gloewing/photometry_FLMM)](LICENSE)
 [![Tests](https://github.com/gloewing/photometry_FLMM/actions/workflows/test.yaml/badge.svg)](https://github.com/gloewing/photometry_FLMM/actions/workflows/test.yaml)
 [![Code Style](https://github.com/gloewing/photometry_FLMM/actions/workflows/lint.yaml/badge.svg)](https://github.com/gloewing/photometry_FLMM/actions/workflows/lint.yaml)
