@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "fast_fmm_rpy2"
+name = "fast-fmm-rpy2"
 version = "0.1.0"
 description = "FLMM rpy2 wrapper for analyzing Fiber Photometry data"
 authors = [

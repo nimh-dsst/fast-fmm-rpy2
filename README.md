@@ -1,41 +1,132 @@
-# photometry_FLMM
+# fast-fmm-rpy2
+A Python wrapper for the R fastFMM package
 
-Code to reproduce analyses and figures from the manuscript: "A Statistical Framework for Analysis of Trial-Level Temporal Dynamics in Fiber Photometry Experiments"
+<!-- replace test PyPI badges with PyPI -->
+<!-- update repo for badges -->
+<!-- https://img.shields.io/pypi/v/fast_fmm_rpy2 -->
+[![PyPI - Version](https://img.shields.io/pypi/v/fast_fmm_rpy2?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://pypi.org/project/fast_fmm_rpy2)
+[![GitHub License](https://img.shields.io/github/license/gloewing/photometry_FLMM)](LICENSE)
+[![Tests](https://github.com/gloewing/photometry_FLMM/actions/workflows/test.yaml/badge.svg)](https://github.com/gloewing/photometry_FLMM/actions/workflows/test.yaml)
+[![Code Style](https://github.com/gloewing/photometry_FLMM/actions/workflows/lint.yaml/badge.svg)](https://github.com/gloewing/photometry_FLMM/actions/workflows/lint.yaml)
 
-## `fastFMM` R Package
+## About
+The Python package `fast-fmm-rpy2` is a wrapper of the `fastFMM` R Package. It provides functions required to reproduce the analyses from the manuscript: "A Statistical Framework for Analysis of Trial-Level Temporal Dynamics in Fiber Photometry Experiments".
 
-For more information see the `fastFMM` R package repo: https://github.com/gloewing/fastFMM
+## Dependencies
+This package requires other software to be installed. The following must already be installed
+1. The R Project for Statistical Computing (R)
+<!-- - See the guide/tutorial for more information about how to install R -->
+2. `fastFMM` R Package
+<!-- - See below for [instructions](https://github.com/gloewing/photometry_FLMM#fastfmm-r-package) -->
 
-### Installation
-
+#### 1. Install R
+- See official R [documentation](http://r-project.org/) and Photometry FLMM [tutorial](https://github.com/gloewing/photometry_FLMM/blob/main/Tutorials/Python%20rpy2%20installation/R%20and%20rpy2%20installation%20guide.ipynb) for more information on installing R and system requirements for your system.
+#### 2. Install `fastFMM` R Package
 Download the $\texttt{R}$ Package `fastFMM` by running the following command within $\texttt{R}$ or $\texttt{RStudio}$:
 
 ```{R}
 install.packages("fastFMM", dependencies = TRUE)
 ```
+For more information see the `fastFMM` R package [repo](https://github.com/gloewing/fastFMM).
 
-###  Package Usage
-
-For the usage and a tutorial on package functions, please refer to [fastFMM's Vignette](https://rpubs.com/gloewinger/1110512). 
-
-### Photometry Analysis Guide in R
-- $\textbf{Part 1}$: [Binary Variables](https://rpubs.com/gloewinger/1159094) 
-- $\textbf{Part 2}$: [Testing changes within a trial between 2 periods (baseline vs. cue period)](https://rpubs.com/gloewinger/1159127)
-- $\textbf{Part 3}$: [Associations with continuous variables](https://rpubs.com/gloewinger/1159129)
-- $\textbf{Part 4}$: [Testing Factor Variables](https://rpubs.com/gloewinger/1159411)
-- $\textbf{Part 5}$: [Testing how signal–covariate associations change across trials/sessions](https://rpubs.com/gloewinger/1159601)
-
-See the `Tutorials` folder above for the datasets and Rmarkdown files used to generate the above guides.
-
-### Photometry Analysis Guide in Python
-- $\textbf{Part 1}$: [Binary Variables](https://github.com/gloewing/photometry_FLMM/blob/main/Tutorials/Photometry%20FLMM%20Guide%20Part%20I/fastFMM-photometry-binary.ipynb)
-- $\textbf{Part 2}$: [Testing changes within a trial between 2 periods (baseline vs. cue period)](https://github.com/gloewing/photometry_FLMM/blob/main/Tutorials/Photometry%20FLMM%20Guide%20Part%20II/fastFMM-photometry-withinTrial.ipynb)
-- $\textbf{Part 3}$: [Associations with continuous variables](https://github.com/gloewing/photometry_FLMM/blob/main/Tutorials/Photometry%20FLMM%20Guide%20Part%20III/fastFMM-photometry-Correlation.ipynb)
-- $\textbf{Part 4}$: [Testing Factor Variables](https://github.com/gloewing/photometry_FLMM/blob/main/Tutorials/Photometry%20FLMM%20Guide%20Part%20IV/fastFMM-photometry-ANOVA.ipynb)
-- $\textbf{Part 5}$: [Testing how signal–covariate associations change across trials/sessions](https://github.com/gloewing/photometry_FLMM/blob/main/Tutorials/Photometry%20FLMM%20Guide%20Part%20V/fastFMM-photometry-Interaction.ipynb)
-
-### Calling `fastFMM` from Python
-See the ipynb Python version of all user guides in the [Tutorials folder](https://github.com/gloewing/photometry_FLMM/tree/main/Tutorials), which provides examples of using `fastFMM` in Python through the Python packages `rpy2` and `fast_fmm_rpy2`. The tutorials assume the `fastFMM` R package (and all its dependenices), and the `rpy2` Python package have already been installed, but we provide a [user guide](https://github.com/gloewing/photometry_FLMM/blob/main/Tutorials/Python%20rpy2%20installation/R%20and%20rpy2%20installation%20guide.ipynb) for installing `rpy2`, `fastFMM` and `fast_fmm_rpy2` from Python in the `Tutorials` folder.
+<!-- For the usage and a tutorial on `fastFMM` package functions, please refer to [fastFMM's Vignette](https://rpubs.com/gloewinger/1110512). -->
 
 
+## Install
+Assuming all the prerequisites in [Dependencies](Dependencies) are installed, `fast-fmm-rpy2` can be installed using `pip`.
 
+```bash
+pip install fast-fmm-rpy2
+```
+<!-- This package has many depdencies, installation on older systems may be slow. -->
+
+As the name implis `fast-fmm-rpy2` uses Python package `rpy2` to wrap the R package. Refer to `rpy2` [documentation](https://rpy2.github.io/doc/v3.0.x/html/overview.html#installation) for troubleshooting or any [issues loading shared C libraries](https://github.com/rpy2/rpy2?tab=readme-ov-file#issues-loading-shared-c-libraries).
+
+## API
+
+```python
+# fast_fmm_rpy2/fmm_run.py
+def fui(
+    csv_filepath: Path | None,
+    formula: str,
+    parallel: bool = True,
+    import_rules=local_rules,
+    r_var_name: str | None = "py_dat",
+)
+```
+
+```python
+# fast_fmm_rpy2/ingest.py
+def read_csv_for_r(
+    csv_filepath: Path, r_var_name: str = "py_dat"
+) -> pd.DataFrame
+
+def pass_pandas_to_r(df: pd.DataFrame, r_var_name: str = "py_dat") -> None
+
+def read_csv_in_pandas_pass_to_r(
+    csv_filepath: Path, r_var_name: str = "py_dat"
+) -> pd.DataFrame
+```
+
+```python
+# fast_fmm_rpy2/plot_fui
+def plot_fui(
+    fuiobj,
+    num_row=None,
+    xlab="Functional Domain",
+    title_names=None,
+    ylim=None,
+    align_x=None,
+    x_rescale=1,
+    y_val_lim=1.1,
+    y_scal_orig=0.05,
+    return_data=False,
+)
+```
+
+## Usage and tutorials
+See [photometry_FLMM](https://github.com/gloewing/photometry_FLMM) for tutorials on using `fast-fmm-rpy2` to create Functional Mixed Models for Fiber Photometry.
+<!-- to analyze XYZ data and reproduce the code and figures from the manuscript: "A Statistical Framework for Analysis of Trial-Level Temporal Dynamics in Fiber Photometry Experiments". -->
+
+## License
+This software is developed under a CC0 1.0 Universal license. See the [License](LICENSE) file for more details.
+
+## Referencing
+If you use this package please reference the following papers, as well as our most recent [most recent Zenodo release](https://zenodo.org/badge/latestdoi/952179029):
+- Cui et al. (2022) [manuscript](doi:10.1080/10618600.2021.1950006)
+- Loewinger et al. (2024) [manuscript](doi:10.7554/eLife.95802.2)
+
+## Contribute
+<!-- 1. Have or install a recent version of uv (version >= ?)
+2. Fork the repo
+3. Setup a virtual environment (however you prefer)
+4. Run `uv sync --extra dev`
+5. Add your changes (adding/updating tests is always nice too)
+6. Commit your changes + push to your fork
+7. Open a PR -->
+
+### Bump version
+The versioning of this package is managed by `bump-my-version`. Bumping the version using `bump-my-version` will update the project version in the `pyproject.toml`, create a commit and create a tag.
+
+To bump the version
+1. Have or install a recent version of uv
+2. Setup virtual environment and install dependencies
+	```bash
+	uv sync --extra dev
+	```
+3. Bump version
+	```bash
+	uv run bump-my-version bump <major|minor|patch>
+	```
+
+#### Helpful commands
+
+Show the possible versions resulting from the bump subcommand.
+```bash
+uv run bump-my-version show
+```
+
+Test the bump command, don't write any files, just pretend.
+```bash
+uv run bump-my-version bump <major|minor|patch> --verbose --dry-run
+```
