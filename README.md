@@ -1,14 +1,14 @@
 # fast-fmm-rpy2
-A Python wrapper for the R fastFMM package
+Python wrapper for the R fastFMM package
 
 <!-- replace test PyPI badges with PyPI -->
 <!-- update repo for badges -->
-<!-- https://img.shields.io/pypi/v/fast_fmm_rpy2 -->
+<!-- https://img.shields.io/pypi/v/fast-fmm-rpy2 -->
 [![PyPI - Version](https://img.shields.io/pypi/v/fast_fmm_rpy2?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://pypi.org/project/fast_fmm_rpy2)
 [![DOI](https://zenodo.org/badge/952179029.svg)](https://zenodo.org/badge/latestdoi/952179029)
-[![GitHub License](https://img.shields.io/github/license/gloewing/photometry_FLMM)](LICENSE)
-[![Tests](https://github.com/gloewing/photometry_FLMM/actions/workflows/test.yaml/badge.svg)](https://github.com/gloewing/photometry_FLMM/actions/workflows/test.yaml)
-[![Code Style](https://github.com/gloewing/photometry_FLMM/actions/workflows/lint.yaml/badge.svg)](https://github.com/gloewing/photometry_FLMM/actions/workflows/lint.yaml)
+[![GitHub License](https://img.shields.io/github/license/nimh-dsst/fast-fmm-rpy2)](LICENSE)
+[![Tests](https://github.com/nimh-dsst/fast-fmm-rpy2/actions/workflows/test.yaml/badge.svg)](https://github.com/nimh-dsst/fast-fmm-rpy2/actions/workflows/test.yaml)
+[![Code Style](https://github.com/nimh-dsst/fast-fmm-rpy2/actions/workflows/lint.yaml/badge.svg)](https://github.com/nimh-dsst/fast-fmm-rpy2/actions/workflows/lint.yaml)
 
 ## About
 The Python package `fast-fmm-rpy2` is a wrapper of the `fastFMM` R Package. It provides functions required to reproduce the analyses from the manuscript: "A Statistical Framework for Analysis of Trial-Level Temporal Dynamics in Fiber Photometry Experiments".
@@ -16,9 +16,7 @@ The Python package `fast-fmm-rpy2` is a wrapper of the `fastFMM` R Package. It p
 ## Dependencies
 This package requires other software to be installed. The following must already be installed
 1. The R Project for Statistical Computing (R)
-<!-- - See the guide/tutorial for more information about how to install R -->
 2. `fastFMM` R Package
-<!-- - See below for [instructions](https://github.com/gloewing/photometry_FLMM#fastfmm-r-package) -->
 
 #### 1. Install R
 - See official R [documentation](http://r-project.org/) and Photometry FLMM [tutorial](https://github.com/gloewing/photometry_FLMM/blob/main/Tutorials/Python%20rpy2%20installation/R%20and%20rpy2%20installation%20guide.ipynb) for more information on installing R and system requirements for your system.
@@ -29,9 +27,6 @@ Download the $\texttt{R}$ Package `fastFMM` by running the following command wit
 install.packages("fastFMM", dependencies = TRUE)
 ```
 For more information see the `fastFMM` R package [repo](https://github.com/gloewing/fastFMM).
-
-<!-- For the usage and a tutorial on `fastFMM` package functions, please refer to [fastFMM's Vignette](https://rpubs.com/gloewinger/1110512). -->
-
 
 ## Install
 Assuming all the prerequisites in [Dependencies](Dependencies) are installed, `fast-fmm-rpy2` can be installed using `pip`.
@@ -94,8 +89,8 @@ This software is developed under a CC0 1.0 Universal license. See the [License](
 
 ## Referencing
 If you use this package please reference the following papers, as well as our most recent [most recent Zenodo release](https://zenodo.org/badge/latestdoi/952179029):
-- Cui et al. (2022) [manuscript](doi:10.1080/10618600.2021.1950006)
-- Loewinger et al. (2024) [manuscript](doi:10.7554/eLife.95802.2)
+- Cui et al. (2022) [Implementation of the fast univariate inference approach](https://doi.org/10.1080/10618600.2021.1950006)
+- Loewinger et al. (2024) [A statistical framework for analysis of trial-level temporal dynamics in fiber photometry experiments.](https://doi.org/10.7554/eLife.95802)
 
 ## Contribute
 <!-- 1. Have or install a recent version of uv (version >= ?)

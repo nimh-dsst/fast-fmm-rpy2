@@ -25,9 +25,8 @@ keywords = [
 
 dependencies = [
     "rpy2",
-    "jupyter",
     "pandas",
-    "matplotlib"
+    "matplotlib",
 ]
 
 [project.optional-dependencies]
@@ -40,8 +39,8 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/gloewing/photometry_FLMM"
-Issues = "https://github.com/gloewing/photometry_FLMM/issues"
+Homepage = "https://github.com/nimh-dsst/fast-fmm-rpy2"
+Issues = "https://github.com/nimh-dsst/fast-fmm-rpy2/issues"
 
 [tool.setuptools]
 packages = {find = {}}
@@ -49,7 +48,6 @@ packages = {find = {}}
 [tool.ruff]
 exclude = [
     ".venv",
-    "*.ipynb",
 ]
 
 line-length = 79
