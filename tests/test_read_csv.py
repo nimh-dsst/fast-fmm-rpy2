@@ -14,27 +14,27 @@ from fast_fmm_rpy2.ingest import (
 
 @pytest.fixture
 def binary_filepath() -> Path:
-    return Path(r"Tutorials/Photometry FLMM Guide Part I/binary.csv")
+    return Path(r"tests/data/binary.csv")
 
 
 @pytest.fixture
 def example_filepath() -> Path:
-    return Path(r"Tutorials/example_data.csv")
+    return Path(r"tests/data/example_data.csv")
 
 
 @pytest.fixture
 def int_filepath() -> Path:
-    return Path(r"Tutorials/example_data.csv")
+    return Path(r"tests/data/example_data.csv")
 
 
 @pytest.fixture
 def anova_filepath() -> Path:
-    return Path(r"Tutorials/Photometry FLMM Guide Part IV/anova_data.csv")
+    return Path(r"tests/data/anova_data.csv")
 
 
 @pytest.fixture
 def corr_filepath() -> Path:
-    return Path(r"Tutorials/Photometry FLMM Guide Part III/corr_data.csv")
+    return Path(r"tests/data/corr_data.csv")
 
 
 def test_binary_csv_exists(binary_filepath):
