@@ -7,7 +7,7 @@ name = "fast-fmm-rpy2"
 version = "0.1.0"
 description = "FLMM rpy2 wrapper for analyzing Fiber Photometry data"
 authors = [
-    {name = "Josh Lawrimore", email = "josh.lawrimore@nih.gov"},
+    {name = "Josh Lawrimore", email = "josh.lawrimore@gmail.com"},
     {name = "Ashley Ptinis", email = "aptinis@gmail.com"},
     {name = "Gabriel Loewinger", email = "gloewinger@gmail.com"}
 ]
