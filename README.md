@@ -85,7 +85,7 @@ See [photometry_FLMM](https://github.com/gloewing/photometry_FLMM) for tutorials
 This software is developed under a CC0 1.0 Universal license. See the [License](LICENSE) file for more details.
 
 ## Referencing
-If you use this package please reference the following papers, as well as our most recent [most recent Zenodo release](https://zenodo.org/badge/latestdoi/952179029):
+If you use this package please reference the following papers, as well as our [most recent Zenodo release](https://zenodo.org/badge/latestdoi/952179029):
 - Cui et al. (2022) [Implementation of the fast univariate inference approach](https://doi.org/10.1080/10618600.2021.1950006)
 - Loewinger et al. (2024) [A statistical framework for analysis of trial-level temporal dynamics in fiber photometry experiments.](https://doi.org/10.7554/eLife.95802)
 
