@@ -62,7 +62,7 @@ def compare_models(mod, r_mod) -> None:
         else:
             raise ValueError(f"{key} is a {type(mod[key])} variable!")
         try:
-            assert all(mod_flat == r_mod_flat), (
+            assert np.allclose(mod_flat, r_mod_flat), (
                 "R dataframe vs Pandas DataFrame resulted"
                 + f" in different models for {key}"
             )

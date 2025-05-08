@@ -61,35 +61,35 @@ def test_roundtrip_compare_binary(binary_filepath: Path):
     df: pd.DataFrame = pandas_read_in_csv_roundtrip(binary_filepath)
     dat: ro.vectors.DataFrame = r_read_in_csv_rpy2_convert(binary_filepath)
     results_df: pd.DataFrame = compare_df_dat(df=df, dat=dat)
-    assert results_df["float_match"].all()
+    assert results_df["float_isclose"].all()
 
 
 def test_roundtrip_compare_example(example_filepath: Path):
     df: pd.DataFrame = pandas_read_in_csv_roundtrip(example_filepath)
     dat: ro.vectors.DataFrame = r_read_in_csv_rpy2_convert(example_filepath)
     results_df: pd.DataFrame = compare_df_dat(df=df, dat=dat)
-    assert results_df["float_match"].all()
+    assert results_df["float_isclose"].all()
 
 
 def test_roundtrip_compare_int(int_filepath: Path):
     df: pd.DataFrame = pandas_read_in_csv_roundtrip(int_filepath)
     dat: ro.vectors.DataFrame = r_read_in_csv_rpy2_convert(int_filepath)
     results_df: pd.DataFrame = compare_df_dat(df=df, dat=dat)
-    assert results_df["float_match"].all()
+    assert results_df["float_isclose"].all()
 
 
 def test_roundtrip_compare_anova(anova_filepath: Path):
     df: pd.DataFrame = pandas_read_in_csv_roundtrip(anova_filepath)
     dat: ro.vectors.DataFrame = r_read_in_csv_rpy2_convert(anova_filepath)
     results_df: pd.DataFrame = compare_df_dat(df=df, dat=dat)
-    assert results_df["float_match"].all()
+    assert results_df["float_isclose"].all()
 
 
 def test_roundtrip_compare_corr(corr_filepath: Path):
     df: pd.DataFrame = pandas_read_in_csv_roundtrip(corr_filepath)
     dat: ro.vectors.DataFrame = r_read_in_csv_rpy2_convert(corr_filepath)
     results_df: pd.DataFrame = compare_df_dat(df=df, dat=dat)
-    assert results_df["float_match"].all()
+    assert results_df["float_isclose"].all()
 
 
 def test_compare_df_dat_in_r_binary(binary_filepath: Path):
