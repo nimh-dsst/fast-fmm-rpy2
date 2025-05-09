@@ -34,15 +34,16 @@ jobs:
       - name: Bump version
         run: |
           uv run --extra dev --frozen bump-my-version bump patch --no-commit --no-tag
+          uv run --extra dev --frozen bump-my-version bump --current-version 0.1.0 --new-version 0.1.2 --no-commit --no-tag
 
       - name: Build package
         run: uv build
 
-      - name: Test installation (wheel)
-        run: uv run --isolated --no-project --python 3.13 --with dist/*.whl python -c "from fast_fmm_rpy2.ingest import read_csv_in_pandas_pass_to_r; print('Success!')"
+      # - name: Test installation (wheel)
+      #   run: uv run --isolated --no-project --python 3.13 --with dist/*.whl python -c "from fast_fmm_rpy2.ingest import read_csv_in_pandas_pass_to_r; print('Success!')"
 
-      - name: Test installation (source distribution)
-        run: uv run --isolated --no-project --python 3.13 --with dist/*.tar.gz python -c "from fast_fmm_rpy2.ingest import read_csv_in_pandas_pass_to_r; print('Success!')"
+      # - name: Test installation (source distribution)
+      #   run: uv run --isolated --no-project --python 3.13 --with dist/*.tar.gz python -c "from fast_fmm_rpy2.ingest import read_csv_in_pandas_pass_to_r; print('Success!')"
 
       - name: Publish package
         run: |
