@@ -33,7 +33,6 @@ jobs:
 
       - name: Bump version
         run: |
-          uv run --extra dev --frozen bump-my-version bump patch --no-commit --no-tag
           uv run --extra dev --frozen bump-my-version bump --current-version 0.1.0 --new-version 0.1.2 --no-commit --no-tag
 
       - name: Build package
