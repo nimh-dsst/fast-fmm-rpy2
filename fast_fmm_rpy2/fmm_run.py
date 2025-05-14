@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 import rpy2.rinterface as rinterface  # type: ignore
 from rpy2 import robjects as ro  # type: ignore
+from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
 from rpy2.robjects import pandas2ri  # type: ignore
 from rpy2.robjects.conversion import localconverter  # type: ignore
 from rpy2.robjects.packages import importr  # type: ignore
-from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
 
 from fast_fmm_rpy2.ingest import read_csv_in_pandas_pass_to_r
 
@@ -102,9 +102,9 @@ def fui(
         If `csv_filepath` is not None and `r_var_name` is not provided.
     """
     if csv_filepath is None:
-        assert (
-            r_var_name is not None
-        ), "r_var_name must be provided if csv_filepath is None"
+        assert r_var_name is not None, (
+            "r_var_name must be provided if csv_filepath is None"
+        )
     elif r_var_name is not None:
         read_csv_in_pandas_pass_to_r(
             csv_filepath=csv_filepath, r_var_name=r_var_name

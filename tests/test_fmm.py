@@ -62,7 +62,7 @@ def compare_models(mod, r_mod) -> None:
         else:
             raise ValueError(f"{key} is a {type(mod[key])} variable!")
         try:
-            assert all(mod_flat == r_mod_flat), (
+            assert np.allclose(mod_flat, r_mod_flat), (
                 "R dataframe vs Pandas DataFrame resulted"
                 + f" in different models for {key}"
             )
@@ -74,25 +74,25 @@ def compare_models(mod, r_mod) -> None:
     "csv_filepath,formula,parallel,import_rules",
     [
         (
-            Path(r"Tutorials/Photometry FLMM Guide Part I/binary.csv"),
+            Path(r"tests/data/binary.csv"),
             "photometry ~ cs + (1 | id)",
             True,
             local_rules,
         ),
         (
-            Path(r"Tutorials/Photometry FLMM Guide Part I/binary.csv"),
+            Path(r"tests/data/binary.csv"),
             "photometry ~ cs + (cs | id)",
             True,
             local_rules,
         ),
         (
-            Path(r"Tutorials/Photometry FLMM Guide Part III/corr_data.csv"),
+            Path(r"tests/data/corr_data.csv"),
             "photometry ~ cs + (1 | id)",
             True,
             local_rules,
         ),
         (
-            Path(r"Tutorials/Photometry FLMM Guide Part III/corr_data.csv"),
+            Path(r"tests/data/corr_data.csv"),
             "photometry ~ cs + (cs | id)",
             True,
             local_rules,

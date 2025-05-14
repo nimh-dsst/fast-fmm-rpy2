@@ -6,11 +6,11 @@ import pandas as pd
 import rpy2.rinterface as rinterface  # type: ignore
 from matplotlib.gridspec import GridSpec
 from rpy2 import robjects as ro  # type: ignore
+from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
 from rpy2.rlike.container import OrdDict  # type: ignore
 from rpy2.robjects import pandas2ri  # type: ignore
 from rpy2.robjects.conversion import localconverter  # type: ignore
 from rpy2.robjects.packages import importr  # type: ignore
-from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
 
 from fast_fmm_rpy2.ingest import read_csv_in_pandas_pass_to_r
 

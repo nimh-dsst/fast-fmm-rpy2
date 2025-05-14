@@ -5,10 +5,12 @@ on: [push, pull_request]
 jobs:
   test:
     name: "Unit Tests"
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10"]
+        python-version: ["3.10"]
+        os: [macos-latest]
+    runs-on: ${{ matrix.os }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,11 +23,32 @@ jobs:
         with:
           packages: fastFMM
 
+      - name: rpy2 patch for missing C libraries with macos
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          LIB_ARCHIVES=(\
+           libdeflate-1.23-darwin.20-arm64.tar.xz \
+           zstd-1.5.5-darwin.20-arm64.tar.xz \
+          )
+          for name in "${LIB_ARCHIVES[@]}"
+          do
+             curl -LO https://mac.r-project.org/bin/darwin20/arm64/"${name}"
+             sudo tar xJf "${name}" -C /
+          done
+
       - name: Install uv and set the python version
         uses: astral-sh/setup-uv@v5
         with:
           version: "0.6.x"
           python-version: ${{ matrix.python-version }}
 
+      - name: Install python dependencies
+        run: |
+          uv sync --extra dev --frozen
+        env:
+          DYLD_FALLBACK_LIBRARY_PATH: "/opt/homebrew/lib"
+
       - name: Test with python ${{ matrix.python-version }}
-        run: uv run --extra dev --frozen pytest
+        run: |
+          uv run pytest

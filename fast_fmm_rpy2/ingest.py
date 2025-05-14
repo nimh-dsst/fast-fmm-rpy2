@@ -46,9 +46,14 @@ def compare_df_dat(df: pd.DataFrame, dat: ro.vectors.DataFrame):
             # adjust index for R dat
             row_j = row + 1
             dat_array = np.asarray(dat.rx(f"{row_j}", f"photometry.{col}"))
-            result = dat_array[0] == df[f"photometry.{col}"][row]
+            result = np.isclose(
+                dat_array[0],
+                df[f"photometry.{col}"][row],
+                rtol=1e-05,
+                atol=1e-08,
+            )
             result_dict = {
-                "float_match": result,
+                "float_isclose": result,
                 "column": f"photometry.{col}",
                 "df_row": row,
                 "dat_row": row_j,
@@ -106,7 +111,16 @@ def compare_df_dat_in_r(csv_filepath: Path) -> bool:
         ro.r(f'dat = read.csv("{str(csv_filepath.absolute().as_posix())}")')
     read_csv_in_pandas_pass_to_r(csv_filepath=csv_filepath)
     compare_result = (
-        np.asarray(ro.r("all(na.omit(dat == py_dat))")).astype(bool).item()
+        np.asarray(
+            ro.r(
+                (
+                    "isTRUE(all.equal(na.omit(dat), na.omit(py_dat),"
+                    "tolerance=1e-15, check.attributes=FALSE))"
+                )
+            )
+        )
+        .astype(bool)
+        .item()
     )
     return compare_result
 

@@ -1,40 +1,84 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
-name = "fast_fmm_rpy2"
+name = "fast-fmm-rpy2"
 version = "0.1.0"
 description = "FLMM rpy2 wrapper for analyzing Fiber Photometry data"
 authors = [
-    {name = "Josh Lawrimore", email = "josh.lawrimore@nih.gov"}
+    {name = "Josh Lawrimore", email = "josh.lawrimore@gmail.com"},
+    {name = "Ashley Ptinis", email = "aptinis@gmail.com"},
+    {name = "Gabriel Loewinger", email = "gloewinger@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.9"
-license = {file = "LICENSE"}  # Add a LICENSE file if you have one
+requires-python = ">=3.10"
+license = { text = "CC0 1.0 Universal" }
+
+keywords = [
+    "Fiber Photometry",
+    "FLMM",
+    "Functional Linear Mixed Models",
+    "Fast Functional Mixed Models",
+    "Fast Univariate Inference"
+]
 
 dependencies = [
     "rpy2",
-    "jupyter",
     "pandas",
-    "matplotlib"
+    "matplotlib",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "black",
-    "flake8",
     "mypy",
-    "isort",
-    "pandas-stubs"
+    "pandas-stubs",
+    "ruff",
+    "bump-my-version",
 ]
+
+[project.urls]
+Homepage = "https://github.com/nimh-dsst/fast-fmm-rpy2"
+Issues = "https://github.com/nimh-dsst/fast-fmm-rpy2/issues"
 
 [tool.setuptools]
 packages = {find = {}}
 
-[tool.black]
-line-length = 88
+[tool.ruff]
+exclude = [
+    ".venv",
+]
 
-[tool.isort]
-profile = "black"
+line-length = 79
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    "F",    # pyflakes F codes
+    "I",    # isort codes
+    "W",    # pycodestyle warning codes
+    "E4",   # subset of the pycodestyle Error codes
+    "E7",
+    "E9",
+    "E501",
+]
+
+[tool.ruff.format]
+# Configure Black style
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.bumpversion]
+current_version = "0.1.0"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+tag = true
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+commit = true
+message = "Bump version: {current_version} → {new_version}"

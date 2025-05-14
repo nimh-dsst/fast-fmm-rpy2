@@ -1,0 +1,30 @@
+{
+    "title": "fast-fmm-rpy2",
+    "description": "A Python wrapper for the R fastFMM package",
+    "creators": [
+        {
+            "name": "Lawrimore, Josh",
+            "affiliation": "National Institute of Mental Health",
+            "orcid": "0000-0003-2301-9073"
+        },
+        {
+            "name": "Loewinger, Gabriel",
+            "affiliation": "National Institute of Mental Health",
+            "orcid": "0000-0002-0755-8520"
+        },
+        {
+            "name": "Ptinis, Ashley",
+            "affiliation": "National Institute of Mental Health",
+            "orcid": "0009-0007-7851-0552"
+        }
+    ],
+    "keywords": [
+        "Fiber Photometry",
+        "FLMM",
+        "Functional Linear Mixed Models",
+        "Fast Functional Mixed Models",
+        "Fast Univariate Inference"
+    ],
+    "license": "CC0 1.0 Universal",
+    "upload_type": "software"
+}
