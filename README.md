@@ -172,7 +172,7 @@ To bump the version
 
 Show the possible versions resulting from the bump subcommand.
 ```bash
-uv run bump-my-version show
+uv run bump-my-version show-bump
 ```
 
 Test the bump command, don't write any files, just pretend.

@@ -35,7 +35,7 @@ dev = [
     "mypy",
     "pandas-stubs",
     "ruff",
-    "bump-my-version",
+    "bump-my-version>=1.2.0",
 ]
 
 [project.urls]
@@ -82,3 +82,4 @@ tag_name = "v{new_version}"
 tag_message = "Bump version: {current_version} → {new_version}"
 commit = true
 message = "Bump version: {current_version} → {new_version}"
+pre_commit_hooks = ["uv sync", "git add uv.lock"]
