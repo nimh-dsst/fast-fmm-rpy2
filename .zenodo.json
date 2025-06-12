@@ -25,6 +25,7 @@
         "Fast Functional Mixed Models",
         "Fast Univariate Inference"
     ],
-    "license": "CC0 1.0 Universal",
+    "license": "CC0-1.0",
+    "access_right": "open",
     "upload_type": "software"
 }
