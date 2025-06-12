@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "fast-fmm-rpy2"
-version = "1.0.1"
+version = "1.0.2"
 description = "FLMM rpy2 wrapper for analyzing Fiber Photometry data"
 authors = [
     {name = "Josh Lawrimore", email = "josh.lawrimore@gmail.com"},
@@ -72,7 +72,7 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.bumpversion]
-current_version = "1.0.1"
+current_version = "1.0.2"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"
