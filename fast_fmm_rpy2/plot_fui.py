@@ -32,8 +32,10 @@ def plot_fui(
 
     Parameters:
     -----------
-    fuiobj : dict
-        A dictionary containing the following keys:
+    fuiobj : rpy2.rlike.container.NamedList
+        Functional univariate inference object returned from fastFMM.fui.
+
+        Contains the following names:
         - betaHat: numpy array of shape (num_vars, num_points) containing
             coefficient estimates
         - betaHat_var: numpy array of shape (num_points, num_points, num_vars)
@@ -67,8 +69,8 @@ def plot_fui(
         If return_data=True, returns (figure, list of dataframes)
     """
     # number of variables to plot
-    num_var = fuiobj["betaHat"].shape[0]
-    var_names = fuiobj["betaHat"].index.to_list()
+    num_var = fuiobj.getbyname("betaHat").shape[0]
+    var_names = fuiobj.getbyname("betaHat").index.to_list()
     res_list = []
     if num_row is None:
         num_row = int(np.ceil(num_var / 2))
@@ -78,18 +80,18 @@ def plot_fui(
 
     if title_names is None:
         try:
-            title_names = fuiobj["betaHat"].index.to_list()
+            title_names = fuiobj.getbyname("betaHat").index.to_list()
         except KeyError:
             title_names = [f"Variable {i}" for i in range(num_var)]
 
     # sanity check the number of rows with number of varibles
-    if not len(fuiobj["betaHat"]) == len(title_names):
+    if not len(fuiobj.getbyname("betaHat")) == len(title_names):
         Warning(
             "Incorrect number of title_names detected,"
             + " replacing title names in plots"
         )
         try:
-            title_names = fuiobj["betaHat"].index.to_list()
+            title_names = fuiobj.getbyname("betaHat").index.to_list()
         except KeyError:
             title_names = [f"Variable {i}" for i in range(num_var)]
 
@@ -108,9 +110,9 @@ def plot_fui(
         ax = fig.add_subplot(gs[row, col])
 
         # Create plotting dataframe
-        if "betaHat.var" not in fuiobj:
+        if "betaHat.var" not in fuiobj.names():
             beta_hat_plt = pd.DataFrame(
-                {"s": fuiobj["argvals"], "beta": fuiobj["betaHat"].iloc[r, :]}
+                {"s": fuiobj.getbyname("argvals"), "beta": fuiobj.getbyname("betaHat").iloc[r, :]}
             )
 
             # Plot estimate
@@ -125,19 +127,19 @@ def plot_fui(
             )
 
         else:
-            var_diag = np.diag(fuiobj["betaHat.var"][:, :, r])
+            var_diag = np.diag(fuiobj.getbyname("betaHat.var")[:, :, r])
             beta_hat_plt = pd.DataFrame(
                 {
-                    "s": fuiobj["argvals"],
-                    "beta": fuiobj["betaHat"].iloc[r, :],
-                    "lower": fuiobj["betaHat"].iloc[r, :]
+                    "s": fuiobj.getbyname("argvals"),
+                    "beta": fuiobj.getbyname("betaHat").iloc[r, :],
+                    "lower": fuiobj.getbyname("betaHat").iloc[r, :]
                     - 2 * np.sqrt(var_diag),
-                    "upper": fuiobj["betaHat"].iloc[r, :]
+                    "upper": fuiobj.getbyname("betaHat").iloc[r, :]
                     + 2 * np.sqrt(var_diag),
-                    "lower_joint": fuiobj["betaHat"].iloc[r, :]
-                    - fuiobj["qn"][r] * np.sqrt(var_diag),
-                    "upper_joint": fuiobj["betaHat"].iloc[r, :]
-                    + fuiobj["qn"][r] * np.sqrt(var_diag),
+                    "lower_joint": fuiobj.getbyname("betaHat").iloc[r, :]
+                    - fuiobj.getbyname("qn")[r] * np.sqrt(var_diag),
+                    "upper_joint": fuiobj.getbyname("betaHat").iloc[r, :]
+                    + fuiobj.getbyname("qn")[r] * np.sqrt(var_diag),
                 }
             )
 
@@ -181,7 +183,7 @@ def plot_fui(
         if ylim is not None:
             ax.set_ylim(ylim)
         else:
-            if "betaHat.var" not in fuiobj or fuiobj["betaHat.var"] is None:
+            if "betaHat.var" not in fuiobj.names() or fuiobj.getbyname("betaHat.var") is None:
                 y_range = [
                     beta_hat_plt["beta"].min(),
                     beta_hat_plt["beta"].max(),
