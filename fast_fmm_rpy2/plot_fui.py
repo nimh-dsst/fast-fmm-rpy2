@@ -1,3 +1,4 @@
+from ast import expr_context
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -66,9 +67,32 @@ def plot_fui(
         If return_data=False, returns the figure
         If return_data=True, returns (figure, list of dataframes)
     """
+
+    # Helper function to get field by name from NamedList
+    def get_field(obj, field_name):
+        names_list = list(str(name) for name in obj.names())
+        if field_name in names_list:
+            idx = names_list.index(field_name)
+            return obj[idx]
+        else:
+            raise KeyError(f"Field '{field_name}' not found in object")
+
     # number of variables to plot
-    num_var = fuiobj["betaHat"].shape[0]
-    var_names = fuiobj["betaHat"].index.to_list()
+    beta_hat = get_field(fuiobj, "betaHat")
+    num_var = beta_hat.shape[0]
+    var_names = beta_hat.index.to_list()
+
+    # Get other commonly used fields
+    argvals = get_field(fuiobj, "argvals")
+    try:
+        try:
+            beta_hat_var = get_field(fuiobj, "betaHat.var")
+        except KeyError:
+            beta_hat_var = get_field(fuiobj, "betaHat_var")
+        qn = get_field(fuiobj, "qn")
+    except KeyError:
+        beta_hat_var = None
+        qn = None
     res_list = []
     if num_row is None:
         num_row = int(np.ceil(num_var / 2))
@@ -78,18 +102,18 @@ def plot_fui(
 
     if title_names is None:
         try:
-            title_names = fuiobj["betaHat"].index.to_list()
+            title_names = beta_hat.index.to_list()
         except KeyError:
             title_names = [f"Variable {i}" for i in range(num_var)]
 
     # sanity check the number of rows with number of varibles
-    if not len(fuiobj["betaHat"]) == len(title_names):
+    if not len(beta_hat) == len(title_names):
         Warning(
             "Incorrect number of title_names detected,"
             + " replacing title names in plots"
         )
         try:
-            title_names = fuiobj["betaHat"].index.to_list()
+            title_names = beta_hat.index.to_list()
         except KeyError:
             title_names = [f"Variable {i}" for i in range(num_var)]
 
@@ -108,9 +132,9 @@ def plot_fui(
         ax = fig.add_subplot(gs[row, col])
 
         # Create plotting dataframe
-        if "betaHat.var" not in fuiobj:
+        if beta_hat_var is None:
             beta_hat_plt = pd.DataFrame(
-                {"s": fuiobj["argvals"], "beta": fuiobj["betaHat"].iloc[r, :]}
+                {"s": argvals, "beta": beta_hat.iloc[r, :]}
             )
 
             # Plot estimate
@@ -125,19 +149,17 @@ def plot_fui(
             )
 
         else:
-            var_diag = np.diag(fuiobj["betaHat.var"][:, :, r])
+            var_diag = np.diag(beta_hat_var[:, :, r])
             beta_hat_plt = pd.DataFrame(
                 {
-                    "s": fuiobj["argvals"],
-                    "beta": fuiobj["betaHat"].iloc[r, :],
-                    "lower": fuiobj["betaHat"].iloc[r, :]
-                    - 2 * np.sqrt(var_diag),
-                    "upper": fuiobj["betaHat"].iloc[r, :]
-                    + 2 * np.sqrt(var_diag),
-                    "lower_joint": fuiobj["betaHat"].iloc[r, :]
-                    - fuiobj["qn"][r] * np.sqrt(var_diag),
-                    "upper_joint": fuiobj["betaHat"].iloc[r, :]
-                    + fuiobj["qn"][r] * np.sqrt(var_diag),
+                    "s": argvals,
+                    "beta": beta_hat.iloc[r, :],
+                    "lower": beta_hat.iloc[r, :] - 2 * np.sqrt(var_diag),
+                    "upper": beta_hat.iloc[r, :] + 2 * np.sqrt(var_diag),
+                    "lower_joint": beta_hat.iloc[r, :]
+                    - qn[r] * np.sqrt(var_diag),
+                    "upper_joint": beta_hat.iloc[r, :]
+                    + qn[r] * np.sqrt(var_diag),
                 }
             )
 
@@ -181,7 +203,7 @@ def plot_fui(
         if ylim is not None:
             ax.set_ylim(ylim)
         else:
-            if "betaHat.var" not in fuiobj or fuiobj["betaHat.var"] is None:
+            if beta_hat_var is None:
                 y_range = [
                     beta_hat_plt["beta"].min(),
                     beta_hat_plt["beta"].max(),
@@ -221,14 +243,18 @@ def r_export_plot_fui_results(
     ro.r("mod <- fui(photometry ~ cs + (1 | id), data = dat, parallel = TRUE)")
     ro.r("plot_data <- plot_fui(mod, return=TRUE)")
     with (ro.default_converter + pandas2ri.converter).context():
-        intercept_dict: OrdDict = ro.conversion.get_conversion().rpy2py(
-            ro.r("plot_data['(Intercept)']")
+        plot_data = ro.r("plot_data")
+        # Find indices for the intercept and cs components
+        plot_names = list(str(name) for name in plot_data.names())
+        intercept_idx = plot_names.index("(Intercept)")
+        cs_idx = plot_names.index("cs")
+
+        r_intercept: pd.DataFrame = ro.conversion.get_conversion().rpy2py(
+            plot_data[intercept_idx]
         )
-        r_intercept: pd.DataFrame = intercept_dict["(Intercept)"]
-        cs_dict: OrdDict = ro.conversion.get_conversion().rpy2py(
-            ro.r("plot_data['cs']")
+        r_cs: pd.DataFrame = ro.conversion.get_conversion().rpy2py(
+            plot_data[cs_idx]
         )
-        r_cs: pd.DataFrame = cs_dict["cs"]
     return r_intercept, r_cs
 
 

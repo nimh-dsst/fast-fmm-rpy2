@@ -36,6 +36,12 @@ dev = [
     "pandas-stubs",
     "ruff",
     "bump-my-version>=1.2.0",
+    "python-dotenv",
+    "packaging",
+]
+
+notebooks = [
+    "jupyter"
 ]
 
 [project.urls]
