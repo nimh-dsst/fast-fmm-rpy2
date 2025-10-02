@@ -8,6 +8,9 @@ from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
 from rpy2.robjects import pandas2ri  # type: ignore
 from rpy2.robjects.conversion import localconverter  # type: ignore
 from rpy2.robjects.packages import importr  # type: ignore
+from rpy2.robjects.vectors import IntVector  # type: ignore
+from rpy2.rinterface import NULL  # type: ignore
+from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
 from packaging import version
 
 from fast_fmm_rpy2.ingest import read_csv_in_pandas_pass_to_r
@@ -135,6 +138,19 @@ def fui(
     parallel: bool = True,
     import_rules=local_rules,
     r_var_name: str | None = "py_dat",
+    family: str = "gaussian",
+    analytic: bool = True,
+    var: bool = True,
+    silent: bool = False,
+    argvals: list[int] | NULLType = NULL,
+    nknots_min: int | NULLType = NULL,
+    nknots_min_cov: int = 35,
+    smooth_method: str = "GCV.Cp",
+    splines: str = "tp",
+    design_mat: bool = False,
+    residuals: bool = False,
+    n_boots: int = 500,
+    seed: int = 1,
 ):
     """
     Run the fastFMM model using the specified formula and data.
@@ -146,15 +162,53 @@ def fui(
         If None, `r_var_name` must be provided.
     formula : str
         The formula to be used in the fastFMM model.
-    parallel : bool, optional
-        Whether to run the model in parallel. Default is True.
     import_rules : object, optional
         The import rules to be used for the local converter.
         Default is `local_rules`.
     r_var_name : str or None, optional
         The R variable name to be used for the data. If `csv_filepath` is None,
         this must be provided. Default is "py_dat".
-
+    family : str, optional
+        The family to be used in the fastFMM model.
+        Default is "gaussian".
+    analytic : bool, optional
+        Whether to use the analytic inference approach or bootstrap.
+        Default is True.
+    var : bool, optional
+        Whether to include the within-timepoint variance in the model.
+        Default is True.
+    parallel : bool, optional
+        Whether to run the model in parallel. Default is True.
+    silent : bool, optional
+        Whether to suppress the output of the model. Default is False.
+    argvals : list[int] or None, optional
+        The indices of the functional domain to be used in the model.
+        Default is None (i.e., use all points).
+    nknots_min : int or None, optional
+        Minimal number of knots in the penalized smoothing for the
+        regression coefficients. Defaults to None, which then uses L/2
+        where L is the dimension of the functional domain.
+    nknots_min_cov : str or None, optional
+        Minimal number of knots in the penalized smoothing for
+        the covariance matrices. Default is 35.
+    smooth_method : str, optional
+        How to select smoothing parameter in step 2.
+        Default is "GCV.Cp".
+    splines : str, optional
+        The type of spline to be used in the model.
+        Default is "tp".
+    design_mat : bool, optional
+        Whether to return the design matrix. Default is False.
+    residuals : bool, optional
+        Whether to save residuals from unsmoothed LME
+        Default is False.
+    n_boots : int, optional
+        Number of samples when using bootstrap inference.
+        Default is 500.
+    seed : int, optional
+        Numeric value used to ensure bootstrap replicates (draws) are
+        correlated across functional domains for certain bootstrap approaches.
+        Default is 1.
     Returns
     -------
     mod : object
@@ -177,10 +231,25 @@ def fui(
         )
     else:
         raise ValueError("r_var_name must be provided if csv_filepath is None")
+    if argvals is not NULL:
+        argvals = IntVector(argvals)
     with localconverter(import_rules):
         mod = fastFMM.fui(
-            stats.as_formula(formula),
+            formula=stats.as_formula(formula),
             data=base.as_symbol(r_var_name),
             parallel=parallel,
+            family=family,
+            analytic=analytic,
+            var=var,
+            silent=silent,
+            argvals=argvals,
+            nknots_min=nknots_min,
+            nknots_min_cov=nknots_min_cov,
+            smooth_method=smooth_method,
+            splines=splines,
+            design_mat=design_mat,
+            residuals=residuals,
+            n_boots=n_boots,
+            seed=seed,
         )
     return mod
