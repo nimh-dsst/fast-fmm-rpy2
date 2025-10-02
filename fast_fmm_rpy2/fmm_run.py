@@ -151,6 +151,16 @@ def fui(
     residuals: bool = False,
     n_boots: int = 500,
     seed: int = 1,
+    subj_id: str | NULLType = NULL,
+    n_cores: int | NULLType = NULL,
+    caic: bool = False,
+    randeffs: bool = False,
+    non_neg: int = 0,
+    MoM: int = 1,
+    concurrent: bool = False,
+    impute_outcome: bool = False,
+    override_zero_var: bool = False,
+    unsmooth: bool = False,
 ):
     """
     Run the fastFMM model using the specified formula and data.
@@ -209,6 +219,42 @@ def fui(
         Numeric value used to ensure bootstrap replicates (draws) are
         correlated across functional domains for certain bootstrap approaches.
         Default is 1.
+    subj_id : str or NULLType, optional
+        Name of the variable that contains subject ID.
+        Default is NULL.
+    n_cores : int or NULLType, optional
+        The number of cores to use for parallelization.
+        If not specified, defaults to 3/4ths of detected cores.
+        Default is NULL.
+    caic : bool, optional
+        Whether to calculate CAIC.
+        Default is False.
+    randeffs : bool, optional
+        Whether to return random effect estimates.
+        Default is False.
+    non_neg : int, optional
+        0 - no non-negativity constrains
+        1 - non-negativity constraints on every coefficient for variance,
+        2 - non-negativity on average of coefficents for 1 variance term.
+        Default is 0.
+    MoM : int, optional
+        Method of moments estimator.
+        Default is 1.
+    concurrent : bool, optional
+        Whether to fit a concurrent model.
+        Default is False.
+    impute_outcome : bool, optional
+        Whether to impute missing outcome values with FPCA
+        Default is False.
+    override_zero_var : bool, optional
+        Whether to proceed with model fitting if columns have zero variance.
+        Suggested for cases where individual columns have zero variance but
+        interactions have non-zero variance
+        Default is False.
+    unsmooth : bool, optional
+        Whether to return the raw estimates of coefficients and variances
+        without smoothing
+        Default is False.
     Returns
     -------
     mod : object
@@ -251,5 +297,15 @@ def fui(
             residuals=residuals,
             n_boots=n_boots,
             seed=seed,
+            subj_id=subj_id,
+            n_cores=n_cores,
+            caic=caic,
+            randeffs=randeffs,
+            non_neg=non_neg,
+            MoM=MoM,
+            concurrent=concurrent,
+            impute_outcome=impute_outcome,
+            override_zero_var=override_zero_var,
+            unsmooth=unsmooth,
         )
     return mod
