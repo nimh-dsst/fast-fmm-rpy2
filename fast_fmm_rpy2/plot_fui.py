@@ -112,7 +112,10 @@ def plot_fui(
         # Create plotting dataframe
         if "betaHat.var" not in fuiobj.names():
             beta_hat_plt = pd.DataFrame(
-                {"s": fuiobj.getbyname("argvals"), "beta": fuiobj.getbyname("betaHat").iloc[r, :]}
+                {
+                    "s": fuiobj.getbyname("argvals"),
+                    "beta": fuiobj.getbyname("betaHat").iloc[r, :],
+                }
             )
 
             # Plot estimate
@@ -183,7 +186,10 @@ def plot_fui(
         if ylim is not None:
             ax.set_ylim(ylim)
         else:
-            if "betaHat.var" not in fuiobj.names() or fuiobj.getbyname("betaHat.var") is None:
+            if (
+                "betaHat.var" not in fuiobj.names()
+                or fuiobj.getbyname("betaHat.var") is None
+            ):
                 y_range = [
                     beta_hat_plt["beta"].min(),
                     beta_hat_plt["beta"].max(),
