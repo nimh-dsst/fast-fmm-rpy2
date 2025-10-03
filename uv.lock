@@ -565,7 +565,7 @@ requires-dist = [
     { name = "pandas" },
     { name = "pandas-stubs", marker = "extra == 'dev'" },
     { name = "pytest", marker = "extra == 'dev'" },
-    { name = "rpy2", specifier = ">=3.6.4" },
+    { name = "rpy2", specifier = ">=3.6" },
     { name = "ruff", marker = "extra == 'dev'" },
 ]
 

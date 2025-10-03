@@ -24,6 +24,7 @@ keywords = [
 ]
 
 dependencies = [
+    "rpy2>=3.6",
     "pandas",
     "matplotlib",
     "rpy2>=3.6.4",
