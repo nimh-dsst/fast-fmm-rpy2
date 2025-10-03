@@ -35,39 +35,43 @@ def rpy2py_floatvector(obj):
 
 
 def compare_models(mod, r_mod) -> None:
-    for key in dict(mod).keys():
-        if isinstance(mod[key], ndarray):
+    for key in mod.names():
+        if isinstance(mod.getbyname(key), ndarray):
             # check for nans
-            mod_data_is_nan = np.isnan(mod[key])
+            mod_data_is_nan = np.isnan(mod.getbyname(key))
             mod_nan_cols = np.any(mod_data_is_nan, axis=0)
             if np.any(mod_nan_cols):
-                mod_data = mod[key][:, ~mod_nan_cols]
-                r_mod_data = r_mod[key][:, ~mod_nan_cols]
+                mod_data = mod.getbyname(key)[:, ~mod_nan_cols]
+                r_mod_data = r_mod.getbyname(key)[:, ~mod_nan_cols]
             else:
-                mod_data = mod[key]
-                r_mod_data = r_mod[key]
+                mod_data = mod.getbyname(key)
+                r_mod_data = r_mod.getbyname(key)
             mod_flat = mod_data.flatten()
             r_mod_flat = r_mod_data.flatten()
-        elif isinstance(mod[key], DataFrame):
-            mod_flat = mod[key].to_numpy().flatten()
-            r_mod_flat = r_mod[key].to_numpy().flatten()
-        elif isinstance(mod[key], BoolVector):
-            mod_flat = np.array(mod[key]).flatten()
-            r_mod_flat = np.array(mod[key]).flatten()
-        elif isinstance(mod[key], NULLType):
-            assert isinstance(mod[key], NULLType) == isinstance(
-                r_mod[key], NULLType
+        elif isinstance(mod.getbyname(key), DataFrame):
+            mod_flat = mod.getbyname(key).to_numpy().flatten()
+            r_mod_flat = r_mod.getbyname(key).to_numpy().flatten()
+        elif isinstance(mod.getbyname(key), BoolVector):
+            mod_flat = np.array(mod.getbyname(key)).flatten()
+            r_mod_flat = np.array(mod.getbyname(key)).flatten()
+        elif isinstance(mod.getbyname(key), NULLType):
+            assert isinstance(mod.getbyname(key), NULLType) == isinstance(
+                r_mod.getbyname(key), NULLType
             ), f"{key} is NULLType for mod but not r_mod!"
             continue
         else:
-            raise ValueError(f"{key} is a {type(mod[key])} variable!")
+            raise ValueError(
+                f"{key} is a {type(mod.getbyname(key))} variable!"
+            )
         try:
             assert np.allclose(mod_flat, r_mod_flat), (
                 "R dataframe vs Pandas DataFrame resulted"
                 + f" in different models for {key}"
             )
         except ValueError:
-            raise ValueError(f"{key} is a {type(mod[key])} variable!")
+            raise ValueError(
+                f"{key} is a {type(mod.getbyname(key))} variable!"
+            )
 
 
 @pytest.mark.parametrize(

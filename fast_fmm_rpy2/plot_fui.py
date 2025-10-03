@@ -7,6 +7,7 @@ import rpy2.rinterface as rinterface  # type: ignore
 from matplotlib.gridspec import GridSpec
 from rpy2 import robjects as ro  # type: ignore
 from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
+from rpy2.rlike.container import NamedList  # type: ignore
 from rpy2.robjects import pandas2ri  # type: ignore
 from rpy2.robjects.conversion import localconverter  # type: ignore
 from rpy2.robjects.packages import importr  # type: ignore
@@ -238,18 +239,14 @@ def r_export_plot_fui_results(
     ro.r("mod <- fui(photometry ~ cs + (1 | id), data = dat, parallel = TRUE)")
     ro.r("plot_data <- plot_fui(mod, return=TRUE)")
     with (ro.default_converter + pandas2ri.converter).context():
-        plot_data = ro.r("plot_data")
-        # Find indices for the intercept and cs components
-        plot_names = list(str(name) for name in plot_data.names())
-        intercept_idx = plot_names.index("(Intercept)")
-        cs_idx = plot_names.index("cs")
-
-        r_intercept: pd.DataFrame = ro.conversion.get_conversion().rpy2py(
-            plot_data[intercept_idx]
+        intercept_list: NamedList = ro.conversion.get_conversion().rpy2py(
+            ro.r("plot_data['(Intercept)']")
         )
-        r_cs: pd.DataFrame = ro.conversion.get_conversion().rpy2py(
-            plot_data[cs_idx]
+        r_intercept: pd.DataFrame = intercept_list.getbyname("(Intercept)")
+        cs_list: NamedList = ro.conversion.get_conversion().rpy2py(
+            ro.r("plot_data['cs']")
         )
+        r_cs: pd.DataFrame = cs_list.getbyname("cs")
     return r_intercept, r_cs
 
 
