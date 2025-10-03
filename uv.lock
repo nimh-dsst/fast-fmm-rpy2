@@ -544,7 +544,6 @@ dev = [
     { name = "packaging" },
     { name = "pandas-stubs" },
     { name = "pytest" },
-    { name = "python-dotenv" },
     { name = "ruff" },
 ]
 notebooks = [
