@@ -3,15 +3,14 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import rpy2.rinterface as rinterface  # type: ignore
+from packaging import version
 from rpy2 import robjects as ro  # type: ignore
+from rpy2.rinterface import NULL  # type: ignore
 from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
 from rpy2.robjects import pandas2ri  # type: ignore
 from rpy2.robjects.conversion import localconverter  # type: ignore
 from rpy2.robjects.packages import importr  # type: ignore
 from rpy2.robjects.vectors import IntVector  # type: ignore
-from rpy2.rinterface import NULL  # type: ignore
-from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
-from packaging import version
 
 from fast_fmm_rpy2.ingest import read_csv_in_pandas_pass_to_r
 
@@ -29,12 +28,14 @@ def get_fastfmm_version() -> version.Version:
     Returns
     -------
     version.Version
-        The version of the fastFMM package as a packaging.version.Version object.
+        The version of the fastFMM package as a
+        `packaging.version.Version` object.
 
     Raises
     ------
     ImportError
-        If the fastFMM package is not available or version cannot be determined.
+        If the fastFMM package is not available or version cannot be
+        determined.
     """
     try:
         # Try using utils::packageVersion (most reliable)
@@ -53,7 +54,7 @@ def get_fastfmm_version() -> version.Version:
 
 
 def check_fastfmm_version(
-    min_version: str = None, max_version: str = None
+    min_version: str | None = None, max_version: str | None = None
 ) -> bool:
     """
     Check if the fastFMM version meets the specified requirements.
@@ -72,9 +73,9 @@ def check_fastfmm_version(
 
     Examples
     --------
-    >>> check_fastfmm_version(min_version="0.3.0")  # True if >= 0.3.0
-    >>> check_fastfmm_version(max_version="0.4.0")  # True if <= 0.4.0
-    >>> check_fastfmm_version("0.3.0", "0.4.0")     # True if 0.3.0 <= v <= 0.4.0
+    >>> check_fastfmm_version(min_version="0.3.0") # True if >= 0.3.0
+    >>> check_fastfmm_version(max_version="0.4.0") # True if <= 0.4.0
+    >>> check_fastfmm_version("0.3.0", "0.4.0") # True if 0.3.0 <= v <= 0.4.0
     """
     current_version = get_fastfmm_version()
 

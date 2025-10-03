@@ -544,11 +544,15 @@ dev = [
     { name = "packaging" },
     { name = "pandas-stubs" },
     { name = "pytest" },
-    { name = "python-dotenv" },
     { name = "ruff" },
 ]
 notebooks = [
     { name = "jupyter" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
 ]
 
 [package.metadata]
@@ -561,10 +565,12 @@ requires-dist = [
     { name = "pandas" },
     { name = "pandas-stubs", marker = "extra == 'dev'" },
     { name = "pytest", marker = "extra == 'dev'" },
-    { name = "python-dotenv", marker = "extra == 'dev'" },
     { name = "rpy2", specifier = ">=3.6.4" },
     { name = "ruff", marker = "extra == 'dev'" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8.3.5" }]
 
 [[package]]
 name = "fastjsonschema"

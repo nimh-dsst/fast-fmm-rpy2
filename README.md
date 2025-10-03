@@ -354,3 +354,6 @@ The second element is named `HHat` it's structure is:
 ```
 
 ### The fui analytic and var command control what gets returned
+
+- var controls whether to calculate and return varianceof the coefficient estimates. Defaults to `TRUE`. ✅
+- analytic uses analytic inference (primarily for gaussian linking function) or use bootstrap. For fiber photometry experiments (using gaussian), we only need analytic.

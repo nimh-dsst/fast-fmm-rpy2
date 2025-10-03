@@ -1,4 +1,3 @@
-from ast import expr_context
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -8,7 +7,6 @@ import rpy2.rinterface as rinterface  # type: ignore
 from matplotlib.gridspec import GridSpec
 from rpy2 import robjects as ro  # type: ignore
 from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
-from rpy2.rlike.container import OrdDict  # type: ignore
 from rpy2.robjects import pandas2ri  # type: ignore
 from rpy2.robjects.conversion import localconverter  # type: ignore
 from rpy2.robjects.packages import importr  # type: ignore

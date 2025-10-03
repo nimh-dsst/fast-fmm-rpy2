@@ -1,10 +1,5 @@
-from pathlib import Path
 import os
-
-# Load environment variables from .env file before importing rpy2
-from dotenv import load_dotenv
-
-load_dotenv()
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -20,9 +15,9 @@ from rpy2.robjects.conversion import localconverter  # type: ignore
 from rpy2.robjects.vectors import BoolVector  # type: ignore
 
 from fast_fmm_rpy2.fmm_run import (
+    check_fastfmm_version,
     fui,
     get_fastfmm_version,
-    check_fastfmm_version,
 )
 
 local_rules = ro.default_converter + pandas2ri.converter
@@ -46,7 +41,7 @@ def rpy2py_floatvector(obj):
 
 
 def compare_lick_models(mod, r_mod) -> None:
-    # Simplified comparison - just check that both models have the same structure
+    # Simplified comparison - check that both models have the same structure
     mod_names = list(str(name) for name in mod.names())
     r_mod_names = list(str(name) for name in r_mod.names())
 
@@ -179,15 +174,10 @@ def test_fui_compare(csv_filepath, formula, parallel, import_rules) -> None:
     mod_names = set(str(name) for name in mod.names())
     r_mod_names = set(str(name) for name in r_mod.names())
 
-    # Both should have some common expected fields
-    expected_fields = [
-        "betaHat",
-        "betaHat_var",
-        "HHat",
-    ]  # Adjust based on actual API
     common_fields = mod_names.intersection(r_mod_names)
     assert len(common_fields) > 0, (
-        f"No common fields between Python and R models: {mod_names} vs {r_mod_names}"
+        "No common fields between Python and R models:"
+        + f"{mod_names} vs {r_mod_names}"
     )
 
 
@@ -204,7 +194,7 @@ def fui_lick_compare(formula, parallel, import_rules, var, silent) -> None:
     )
     with localconverter(import_rules):
         r_mod = ro.r("mod")
-    mod = fui("lick.csv", formula, parallel, import_rules)
+    mod = fui(Path("lick.csv"), formula, parallel, import_rules)
     os.remove("lick.csv")
     compare_lick_models(mod, r_mod)
 

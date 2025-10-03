@@ -104,7 +104,8 @@ def test_fui_compare(csv_filepath, formula, parallel, import_rules) -> None:
     # which is now properly rejected by newer fastFMM versions
     if "corr_data.csv" in str(csv_filepath):
         pytest.skip(
-            "corr_data.csv has zero variance in cs column, rejected by newer fastFMM"
+            "corr_data.csv has zero variance in cs column, "
+            + "rejected by newer fastFMM"
         )
 
     # Test that both Python and R versions can run without error
@@ -132,13 +133,8 @@ def test_fui_compare(csv_filepath, formula, parallel, import_rules) -> None:
     mod_names = set(str(name) for name in mod.names())
     r_mod_names = set(str(name) for name in r_mod.names())
 
-    # Both should have some common expected fields
-    expected_fields = [
-        "betaHat",
-        "betaHat_var",
-        "HHat",
-    ]  # Adjust based on actual API
     common_fields = mod_names.intersection(r_mod_names)
     assert len(common_fields) > 0, (
-        f"No common fields between Python and R models: {mod_names} vs {r_mod_names}"
+        "No common fields between Python and R models: "
+        + f"{mod_names} vs {r_mod_names}"
     )
