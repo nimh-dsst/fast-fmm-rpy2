@@ -14,11 +14,8 @@ from rpy2.robjects.vectors import IntVector  # type: ignore
 
 from fast_fmm_rpy2.ingest import read_csv_in_pandas_pass_to_r
 
-# import R packages
-base = importr("base")
-utils = importr("utils")
-stats = importr("stats")
-fastFMM = importr("fastFMM")
+# R packages will be imported inside functions where conversion
+# context is available
 
 
 def get_fastfmm_version() -> version.Version:
@@ -37,6 +34,8 @@ def get_fastfmm_version() -> version.Version:
         If the fastFMM package is not available or version cannot be
         determined.
     """
+    # Import R packages locally to avoid conversion context issues
+    utils = importr("utils")
     try:
         # Try using utils::packageVersion (most reliable)
         pkg_version = utils.packageVersion("fastFMM")
@@ -114,6 +113,10 @@ def rpy2py_floatvector(obj):
 
 
 def run_with_pandas_dataframe(csv_filepath: Path, import_rules=local_rules):
+    # Import R packages locally to avoid conversion context issues
+    base = importr("base")
+    stats = importr("stats")
+    fastFMM = importr("fastFMM")
     read_csv_in_pandas_pass_to_r(
         csv_filepath=csv_filepath, r_var_name="py_dat"
     )
@@ -278,6 +281,11 @@ def fui(
         )
     else:
         raise ValueError("r_var_name must be provided if csv_filepath is None")
+    # Import R packages locally to avoid conversion context issues
+    base = importr("base")
+    stats = importr("stats")
+    fastFMM = importr("fastFMM")
+
     if argvals is not NULL:
         argvals = IntVector(argvals)
     with localconverter(import_rules):

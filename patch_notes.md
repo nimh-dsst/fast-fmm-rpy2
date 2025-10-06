@@ -27,3 +27,24 @@ For the purposes of the Python fast-fmm-rpy2 package, only the changes to the fu
 - REs parameter renamed to randeffs
 
 ## fast-fmm-rpy2 Package Changes
+
+The main changes to the rpy2 code is to fully integrate the new parameters for the R version of fui and testing of the new functionality.
+
+### fmm_run.py
+
+- All parameters in R version of fui are now available in the rpy2 version of fui
+- Functions to detect version of fastFMM R package
+
+### plot_fui.py
+
+- Updated variable names to be compatible with new rpy2 and/or the new fastFMM code. The`betahat.var` is now imported by rpy2 as `betahat_var`.
+
+## fast-fmm-rpy2 Notebook
+
+The vignette for the new R version of fastFMM has been converted to a Jupyter notebook at `notebooks/fastFMM_concurrent.ipynb`.
+
+## fast-fmm-rpy2 testing
+
+All tests were updated to be compatable with the new dev version of fastFMM.
+
+TODO: Make tests out of code in the `notebooks/fastFMM_concurrent.ipynb` notebook.
