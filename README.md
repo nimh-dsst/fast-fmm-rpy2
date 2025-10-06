@@ -18,14 +18,14 @@ This package has other software dependencies. The following must already be inst
 1. The R Project for Statistical Computing (R)
 2. `fastFMM` R Package
 
-#### 1. Install R
+### 1. Install R
 
 - See the official R [documentation](http://r-project.org/) and Photometry FLMM [tutorial](https://github.com/gloewing/photometry_FLMM/blob/main/Tutorials/Python%20rpy2%20installation/R%20and%20rpy2%20installation%20guide.ipynb) for more information on installing R and system requirements for your system.
 
 > [!WARNING]
 > Depending on your system and local environment you may encounter a compatibility issue between the latest version of R (4.5.0) and the latest version of `rpy2` (version 3.5.17) on Ubuntu. See [rpy2 issue](https://github.com/rpy2/rpy2/issues/1164) for more info. The issue has been fixed on the master branch of rpy2 but has not shipped with a published release yet.
 
-##### Installing using Conda/Mamba environment
+#### Installing using Conda/Mamba environment
 
 - @joshlawrimore made the deicision to attempt to install R using mamba and chose to compile all of the new fastFMM dependencies. This required some trial and error in getting the correct compilers set in the `$CONDA_PREFIX/lib/R/etc/Makeconf.site file`. On @joshlawrimore's MacBook Pro with an M3 chip, you must update the files to be:
 
@@ -270,15 +270,15 @@ To bump the version
 1. Have or install a recent version of uv
 2. Setup virtual environment and install dependencies
 
- ```bash
- uv sync --extra dev
- ```
+    ```bash
+    uv sync --extra dev
+    ```
 
 3. Bump version
 
- ```bash
- uv run bump-my-version bump <major|minor|patch>
- ```
+    ```bash
+    uv run bump-my-version bump <major|minor|patch>
+    ```
 
 #### Helpful commands
 

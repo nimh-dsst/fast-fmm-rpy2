@@ -27,7 +27,6 @@ dependencies = [
     "rpy2>=3.6",
     "pandas",
     "matplotlib",
-    "rpy2>=3.6.4",
 ]
 
 [project.optional-dependencies]
@@ -37,11 +36,6 @@ dev = [
     "pandas-stubs",
     "ruff",
     "bump-my-version>=1.2.0",
-    "packaging",
-]
-
-notebooks = [
-    "jupyter"
 ]
 
 [project.urls]
@@ -77,12 +71,6 @@ indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
 
-[tool.pytest.ini_options]
-env = [
-    "R_HOME = /Users/lawrimorejg/miniforge3/envs/fast-fmm-r/lib/R",
-    "PATH = /Users/lawrimorejg/miniforge3/envs/fast-fmm-r/bin:$PATH",
-]
-
 [tool.bumpversion]
 current_version = "1.0.3"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
@@ -95,8 +83,3 @@ tag_message = "Bump version: {current_version} → {new_version}"
 commit = true
 message = "Bump version: {current_version} → {new_version}"
 pre_commit_hooks = ["uv sync", "git add uv.lock"]
-
-[dependency-groups]
-dev = [
-    "pytest>=8.3.5",
-]

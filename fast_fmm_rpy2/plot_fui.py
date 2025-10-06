@@ -68,16 +68,6 @@ def plot_fui(
         If return_data=False, returns the figure
         If return_data=True, returns (figure, list of dataframes)
     """
-
-    # Helper function to get field by name from NamedList
-    def get_field(obj, field_name):
-        names_list = list(str(name) for name in obj.names())
-        if field_name in names_list:
-            idx = names_list.index(field_name)
-            return obj[idx]
-        else:
-            raise KeyError(f"Field '{field_name}' not found in object")
-
     # number of variables to plot
     num_var = fuiobj.getbyname("betaHat").shape[0]
     var_names = fuiobj.getbyname("betaHat").index.to_list()
@@ -105,9 +95,6 @@ def plot_fui(
         except KeyError:
             title_names = [f"Variable {i}" for i in range(num_var)]
 
-    # line in R is  names(res_list) <- rownames(fuiobj$betaHat)
-    # TODO: may need to change res_list in script to dict later on
-
     # Create figure and subplots
     fig = plt.figure(figsize=(5, 4 * num_row))
     gs = GridSpec(num_row, num_col, figure=fig)
@@ -120,7 +107,7 @@ def plot_fui(
         ax = fig.add_subplot(gs[row, col])
 
         # Create plotting dataframe
-        if "betaHat.var" not in fuiobj.names():
+        if "betaHat_var" not in fuiobj.names():
             beta_hat_plt = pd.DataFrame(
                 {
                     "s": fuiobj.getbyname("argvals"),
@@ -140,7 +127,7 @@ def plot_fui(
             )
 
         else:
-            var_diag = np.diag(fuiobj.getbyname("betaHat.var")[:, :, r])
+            var_diag = np.diag(fuiobj.getbyname("betaHat_var")[:, :, r])
             beta_hat_plt = pd.DataFrame(
                 {
                     "s": fuiobj.getbyname("argvals"),
