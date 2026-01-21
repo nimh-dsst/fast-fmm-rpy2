@@ -199,9 +199,9 @@ def fui_lick_compare(formula, parallel, import_rules, var, silent) -> None:
         m <- df[[col]]
         md <- as.data.frame(m, check.names = FALSE)
         if (!is.null(colnames(m))) {
-        names(md) <- paste0(col, ".", colnames(m))
+        names(md) <- paste0(colnames(m))
         } else {
-        names(md) <- paste0(col, ".", seq_len(ncol(m)))
+        names(md) <- paste0(seq_len(ncol(m)))
         }
         df[[col]] <- NULL
         df <- cbind(df, md)
