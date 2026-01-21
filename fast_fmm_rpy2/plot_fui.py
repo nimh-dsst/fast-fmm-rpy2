@@ -30,43 +30,46 @@ def plot_fui(
     """
     Plot fixed effects from a functional univariate inference object.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     fuiobj : rpy2.rlike.container.NamedList
         Functional univariate inference object returned from fastFMM.fui.
-
         Contains the following names:
-        - betaHat: numpy array of shape (num_vars, num_points) containing
-            coefficient estimates
-        - betaHat_var: numpy array of shape (num_points, num_points, num_vars)
-            containing variance estimates (optional)
-        - argvals: numpy array of domain points
-        - qn: numpy array of quantiles for joint confidence bands
-            (if variance is included)
+            betaHat : numpy.ndarray
+                Array of shape (num_vars, num_points) containing coefficient
+                estimates.
+            betaHat_var : numpy.ndarray, optional
+                Array of shape (num_points, num_points, num_vars) containing
+                variance estimates.
+            argvals : numpy.ndarray
+                Array of domain points.
+            qn : numpy.ndarray, optional
+                Array of quantiles for joint confidence bands (if variance is
+                included).
     num_row : int, optional
-        Number of rows for subplot grid
+        Number of rows for subplot grid.
     xlab : str, optional
-        Label for x-axis
+        Label for x-axis.
     title_names : list of str, optional
-        Names for each coefficient plot
+        Names for each coefficient plot.
     ylim : tuple, optional
-        Y-axis limits (min, max)
+        Y-axis limits (min, max).
     align_x : float, optional
-        Point to align x-axis to (useful for time domain)
+        Point to align x-axis to (useful for time domain).
     x_rescale : float, optional
-        Scale factor for x-axis
+        Scale factor for x-axis.
     y_val_lim : float, optional
-        Factor to extend y-axis limits
+        Factor to extend y-axis limits.
     y_scal_orig : float, optional
-        Factor to adjust bottom y-axis limit
+        Factor to adjust bottom y-axis limit.
     return_data : bool, optional
-        Whether to return the plotting data
+        Whether to return the plotting data.
 
-    Returns:
-    --------
+    Returns
+    -------
     matplotlib.figure.Figure or tuple
-        If return_data=False, returns the figure
-        If return_data=True, returns (figure, list of dataframes)
+        If return_data is False, returns the figure.
+        If return_data is True, returns (figure, list of dataframes).
     """
     # number of variables to plot
     num_var = fuiobj.getbyname("betaHat").shape[0]
@@ -95,9 +98,6 @@ def plot_fui(
         except KeyError:
             title_names = [f"Variable {i}" for i in range(num_var)]
 
-    # line in R is  names(res_list) <- rownames(fuiobj$betaHat)
-    # TODO: may need to change res_list in script to dict later on
-
     # Create figure and subplots
     fig = plt.figure(figsize=(5, 4 * num_row))
     gs = GridSpec(num_row, num_col, figure=fig)
@@ -110,7 +110,7 @@ def plot_fui(
         ax = fig.add_subplot(gs[row, col])
 
         # Create plotting dataframe
-        if "betaHat.var" not in fuiobj.names():
+        if "betaHat_var" not in fuiobj.names():
             beta_hat_plt = pd.DataFrame(
                 {
                     "s": fuiobj.getbyname("argvals"),
@@ -130,7 +130,7 @@ def plot_fui(
             )
 
         else:
-            var_diag = np.diag(fuiobj.getbyname("betaHat.var")[:, :, r])
+            var_diag = np.diag(fuiobj.getbyname("betaHat_var")[:, :, r])
             beta_hat_plt = pd.DataFrame(
                 {
                     "s": fuiobj.getbyname("argvals"),
@@ -179,7 +179,7 @@ def plot_fui(
 
         # Set labels and title
         ax.set_xlabel(xlab)
-        ax.set_ylabel(f"β{r}(s)")
+        ax.set_ylabel(f"$\\beta_{{{r}}}(s)$")
         ax.set_title(title_names[r], fontweight="bold")
 
         # Set y limits
@@ -187,8 +187,8 @@ def plot_fui(
             ax.set_ylim(ylim)
         else:
             if (
-                "betaHat.var" not in fuiobj.names()
-                or fuiobj.getbyname("betaHat.var") is None
+                "betaHat_var" not in fuiobj.names()
+                or fuiobj.getbyname("betaHat_var") is None
             ):
                 y_range = [
                     beta_hat_plt["beta"].min(),

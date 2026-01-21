@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "fast-fmm-rpy2"
-version = "1.0.3"
+version = "2.0.0"
 description = "FLMM rpy2 wrapper for analyzing Fiber Photometry data"
 authors = [
     {name = "Josh Lawrimore", email = "josh.lawrimore@gmail.com"},
@@ -24,9 +24,9 @@ keywords = [
 ]
 
 dependencies = [
-    "rpy2>=3.6",
     "pandas",
     "matplotlib",
+    "rpy2>=3.6.4",
 ]
 
 [project.optional-dependencies]
@@ -36,6 +36,10 @@ dev = [
     "pandas-stubs",
     "ruff",
     "bump-my-version>=1.2.0",
+]
+
+notebooks = [
+    "jupyter"
 ]
 
 [project.urls]
@@ -72,7 +76,7 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.bumpversion]
-current_version = "1.0.3"
+current_version = "2.0.0"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"
