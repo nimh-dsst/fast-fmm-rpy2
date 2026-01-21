@@ -186,8 +186,32 @@ def fui_lick_compare(formula, parallel, import_rules, var, silent) -> None:
     bool_map: dict = {True: "TRUE", False: "FALSE"}
     ro.r("library(fastFMM)")
     ro.r("lick <- lick")
+    ro.r(r"""
+    expand_matrix_cols <- function(df) {
+    cols <- names(df)[
+        vapply(
+        df,
+        function(x) !is.null(dim(x)) && length(dim(x)) == 2,
+        logical(1)
+        )
+    ]
+    for (col in cols) {
+        m <- df[[col]]
+        md <- as.data.frame(m, check.names = FALSE)
+        if (!is.null(colnames(m))) {
+        names(md) <- paste0(col, ".", colnames(m))
+        } else {
+        names(md) <- paste0(col, ".", seq_len(ncol(m)))
+        }
+        df[[col]] <- NULL
+        df <- cbind(df, md)
+    }
+    df
+    }
+    """)
+    r_flat = ro.r["expand_matrix_cols"](ro.r("lick"))
     with localconverter(import_rules):
-        lick: DataFrame = ro.r("lick")
+        lick: DataFrame = ro.conversion.rpy2py(r_flat)
     lick.to_csv("lick.csv", index=False)
     ro.r(
         f"mod <- fui({formula}, data = lick, parallel = {bool_map[parallel]},"
