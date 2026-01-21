@@ -1,4 +1,5 @@
 import os
+from importlib.metadata import version as get_version
 from pathlib import Path
 
 import numpy as np
@@ -6,7 +7,7 @@ import pandas as pd
 import pytest
 import rpy2.rinterface as rinterface  # type: ignore
 from numpy import ndarray
-from packaging import version
+from packaging.version import Version, parse
 from pandas import DataFrame
 from rpy2 import robjects as ro  # type: ignore
 from rpy2.rinterface_lib.sexp import NULLType  # type: ignore
@@ -203,15 +204,27 @@ def test_fastfmm_version_detection():
     """Test that we can detect the fastFMM version."""
     # Test getting version
     current_version = get_fastfmm_version()
-    assert isinstance(current_version, version.Version)
+    assert isinstance(current_version, Version)
     print(f"Detected fastFMM version: {current_version}")
 
     # Test version checking
     assert check_fastfmm_version(min_version="0.1.0")  # Should be >= 0.1.0
     assert check_fastfmm_version(max_version="1.0.0")  # Should be <= 1.0.0
 
-    # This test should pass with version 0.4.0
-    assert check_fastfmm_version(min_version="0.3.0", max_version="0.5.0")
+    fast_fmm_rpy2_ver = Version(get_version("fast_fmm_rpy2"))
+    fast_fmm_r_ver = get_fastfmm_version()
+    if fast_fmm_rpy2_ver < parse("2.0.0"):
+        if fast_fmm_r_ver >= parse("1.0.0"):
+            raise ValueError(
+                f"The fast_fmm_rpy2 version {str(fast_fmm_rpy2_ver)} is "
+                + f"not compatible with {str(fast_fmm_r_ver)}"
+            )
+    if fast_fmm_rpy2_ver >= parse("2.0.0"):
+        if fast_fmm_r_ver < parse("1.0.0"):
+            raise ValueError(
+                f"The fast_fmm_rpy2 version {str(fast_fmm_rpy2_ver)} is "
+                + f"not compatible with {str(fast_fmm_r_ver)}"
+            )
 
 
 def test_fui_lick_compare_case():
