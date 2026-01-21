@@ -524,7 +524,7 @@ wheels = [
 
 [[package]]
 name = "fast-fmm-rpy2"
-version = "1.0.3"
+version = "2.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "matplotlib" },
