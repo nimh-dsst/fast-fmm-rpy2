@@ -36,13 +36,16 @@ def plot_fui(
         Functional univariate inference object returned from fastFMM.fui.
         Contains the following names:
             betaHat : numpy.ndarray
-                Array of shape (num_vars, num_points) containing coefficient estimates.
+                Array of shape (num_vars, num_points) containing coefficient
+                estimates.
             betaHat_var : numpy.ndarray, optional
-                Array of shape (num_points, num_points, num_vars) containing variance estimates.
+                Array of shape (num_points, num_points, num_vars) containing
+                variance estimates.
             argvals : numpy.ndarray
                 Array of domain points.
             qn : numpy.ndarray, optional
-                Array of quantiles for joint confidence bands (if variance is included).
+                Array of quantiles for joint confidence bands (if variance is
+                included).
     num_row : int, optional
         Number of rows for subplot grid.
     xlab : str, optional
