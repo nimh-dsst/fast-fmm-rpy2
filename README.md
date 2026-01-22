@@ -2,7 +2,7 @@
 
 Python wrapper for the R fastFMM package
 
-[![PyPI - Version](https://img.shields.io/pypi/v/fast-fmm-rpy2?=v2.0.0)](https://pypi.org/project/fast-fmm-rpy2)
+[![PyPI - Version](https://img.shields.io/pypi/v/fast-fmm-rpy2)](https://pypi.org/project/fast-fmm-rpy2)
 [![DOI](https://zenodo.org/badge/952179029.svg)](https://zenodo.org/badge/latestdoi/952179029)
 [![GitHub License](https://img.shields.io/github/license/nimh-dsst/fast-fmm-rpy2)](LICENSE)
 [![Tests](https://github.com/nimh-dsst/fast-fmm-rpy2/actions/workflows/test.yaml/badge.svg)](https://github.com/nimh-dsst/fast-fmm-rpy2/actions/workflows/test.yaml)
