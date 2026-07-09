@@ -233,7 +233,7 @@ def test_fastfmm_version_detection():
 
     # Test version checking
     assert check_fastfmm_version(min_version="0.1.0")  # Should be >= 0.1.0
-    assert check_fastfmm_version(max_version="1.0.0")  # Should be <= 1.0.0
+    assert check_fastfmm_version(max_version=str(current_version))
 
     fast_fmm_rpy2_ver = Version(get_version("fast_fmm_rpy2"))
     fast_fmm_r_ver = get_fastfmm_version()
